@@ -3,14 +3,20 @@
     <declare-styleable name="RealmRecyclerView">
         <attr name="rrvIsRefreshable" format="boolean"/>
         <attr name="rrvEmptyLayoutId" format="reference"/>
+        <attr name="rrvGridLayoutSpanCount" format="integer"/>
+        <attr name="rrvGridLayoutItemWidth" format="dimension"/>
+        <attr name="rrvHeaderColumnName" format="string"/>
+        <attr name="rrvSwipeToDelete" format="boolean"/>
+        <attr name="rrvReverseLayout" format="boolean"/>
+        <attr name="rrvStackFromEnd" format="boolean"/>
         <attr name="rrvLayoutType">
             <enum name="LinearLayout" value="0"/>
             <enum name="Grid" value="1"/>
             <enum name="LinearLayoutWithHeaders" value="2"/>
         </attr>
-        <attr name="rrvGridLayoutSpanCount" format="integer"/>
-        <attr name="rrvGridLayoutItemWidth" format="dimension"/>
-        <attr name="rrvHeaderColumnName" format="string"/>
-        <attr name="rrvSwipeToDelete" format="boolean"/>
+        <attr name="rrvOrientation">
+            <enum name="Vertical" value="0"/>
+            <enum name="Horizontal" value="1"/>
+        </attr>
     </declare-styleable>
 </resources>

@@ -37,6 +37,11 @@ public class RealmRecyclerView extends FrameLayout {
         LinearLayoutWithHeaders
     }
 
+    private enum Orientation {
+        Vertical,
+        Horizontal
+    }
+
     private SwipeRefreshLayout swipeRefreshLayout;
     private RecyclerView recyclerView;
     private ViewStub emptyContentContainer;
@@ -53,6 +58,9 @@ public class RealmRecyclerView extends FrameLayout {
     private int gridWidthPx;
     private boolean swipeToDelete;
     private int bufferItems = 3;
+    private Orientation orientation;
+    private boolean reverseLayout;
+    private boolean stackFromEnd;
 
     private GridLayoutManager gridManager;
     private int lastMeasuredWidth = -1;
@@ -119,7 +127,10 @@ public class RealmRecyclerView extends FrameLayout {
         }
         switch (type) {
             case LinearLayout:
-                recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+                LinearLayoutManager manager = new LinearLayoutManager(getContext(),
+                        getLinearLayoutManagerOrientation(), reverseLayout);
+                manager.setStackFromEnd(stackFromEnd);
+                recyclerView.setLayoutManager(manager);
                 break;
 
             case Grid:
@@ -179,11 +190,15 @@ public class RealmRecyclerView extends FrameLayout {
         }
     }
 
+    public int getLinearLayoutManagerOrientation() {
+        return orientation == Orientation.Horizontal ?
+                LinearLayoutManager.HORIZONTAL :
+                LinearLayoutManager.VERTICAL;
+    }
+
     /**
      * Sets the orientation of the layout. {@link android.support.v7.widget.LinearLayoutManager}
      * will do its best to keep scroll position.
-     *
-     * @param orientation {@link #HORIZONTAL} or {@link #VERTICAL}
      */
     public void setOrientation(int orientation) {
         if(gridManager == null) {
@@ -260,19 +275,21 @@ public class RealmRecyclerView extends FrameLayout {
         TypedArray typedArray =
                 context.obtainStyledAttributes(attrs, R.styleable.RealmRecyclerView);
 
-        isRefreshable =
-                typedArray.getBoolean(R.styleable.RealmRecyclerView_rrvIsRefreshable, false);
-        emptyViewId =
-                typedArray.getResourceId(R.styleable.RealmRecyclerView_rrvEmptyLayoutId, 0);
+        isRefreshable = typedArray.getBoolean(R.styleable.RealmRecyclerView_rrvIsRefreshable, false);
+        emptyViewId = typedArray.getResourceId(R.styleable.RealmRecyclerView_rrvEmptyLayoutId, 0);
+        gridSpanCount = typedArray.getInt(R.styleable.RealmRecyclerView_rrvGridLayoutSpanCount, -1);
+        gridWidthPx = typedArray.getDimensionPixelSize(R.styleable.RealmRecyclerView_rrvGridLayoutItemWidth, -1);
+        swipeToDelete = typedArray.getBoolean(R.styleable.RealmRecyclerView_rrvSwipeToDelete, false);
+        stackFromEnd = typedArray.getBoolean(R.styleable.RealmRecyclerView_rrvStackFromEnd, false);
+        reverseLayout = typedArray.getBoolean(R.styleable.RealmRecyclerView_rrvReverseLayout, false);
         int typeValue = typedArray.getInt(R.styleable.RealmRecyclerView_rrvLayoutType, -1);
         if (typeValue != -1) {
             type = Type.values()[typeValue];
         }
-        gridSpanCount = typedArray.getInt(R.styleable.RealmRecyclerView_rrvGridLayoutSpanCount, -1);
-        gridWidthPx = typedArray
-                .getDimensionPixelSize(R.styleable.RealmRecyclerView_rrvGridLayoutItemWidth, -1);
-        swipeToDelete =
-                typedArray.getBoolean(R.styleable.RealmRecyclerView_rrvSwipeToDelete, false);
+        int orientationValue = typedArray.getInt(R.styleable.RealmRecyclerView_rrvOrientation, -1);
+        if (orientationValue != -1) {
+            orientation = Orientation.values()[orientationValue];
+        }
         typedArray.recycle();
     }
 
@@ -332,6 +349,7 @@ public class RealmRecyclerView extends FrameLayout {
                         }
 
                         private void update() {
+                            if(stackFromEnd) smoothScrollToPosition(adapter.getItemCount());
                             updateEmptyContentContainerVisibility(adapter);
                         }
                     }

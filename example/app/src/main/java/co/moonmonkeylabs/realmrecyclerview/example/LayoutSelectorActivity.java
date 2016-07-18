@@ -89,5 +89,17 @@ public class LayoutSelectorActivity extends AppCompatActivity {
                     }
                 }
         );
+
+        final Button chatButton = (Button) findViewById(R.id.recycler_chat_button);
+        chatButton.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(LayoutSelectorActivity.this, ChatActivity.class);
+                        startActivity(intent);
+                    }
+                }
+        );
+
     }
 }
