@@ -90,6 +90,8 @@ public abstract class RealmBasedRecyclerViewAdapter
     private List<RowWrapper> rowWrappers;
 
     private RealmChangeListener<RealmResults<T>> listener;
+    private String animateExtraColumnName;
+    private boolean automaticUpdate;
     private boolean animateResults;
     private boolean addSectionHeaders;
     private String headerColumnName;
@@ -105,14 +107,7 @@ public abstract class RealmBasedRecyclerViewAdapter
             boolean automaticUpdate,
             boolean animateResults,
             String animateExtraColumnName) {
-        this(
-                context,
-                realmResults,
-                automaticUpdate,
-                animateResults,
-                false,
-                null,
-                animateExtraColumnName);
+        this(context, realmResults, automaticUpdate, animateResults, false, null, animateExtraColumnName);
     }
 
     public RealmBasedRecyclerViewAdapter(
@@ -130,14 +125,7 @@ public abstract class RealmBasedRecyclerViewAdapter
             boolean animateResults,
             boolean addSectionHeaders,
             String headerColumnName) {
-        this(
-                context,
-                realmResults,
-                automaticUpdate,
-                animateResults,
-                addSectionHeaders,
-                headerColumnName,
-                null);
+        this(context, realmResults, automaticUpdate, animateResults, addSectionHeaders, headerColumnName, null);
     }
 
     public RealmBasedRecyclerViewAdapter(
@@ -153,6 +141,8 @@ public abstract class RealmBasedRecyclerViewAdapter
         }
 
         this.context = context;
+        this.automaticUpdate = automaticUpdate;
+        this.animateExtraColumnName = animateExtraColumnName;
         this.animateResults = animateResults;
         this.addSectionHeaders = addSectionHeaders;
         this.headerColumnName = headerColumnName;
@@ -160,7 +150,12 @@ public abstract class RealmBasedRecyclerViewAdapter
         this.listener = (!automaticUpdate) ? null : getRealmChangeListener();
 
         rowWrappers = new ArrayList<>();
+        if(null != realmResults) {
+            setRealmResults(realmResults);
+        }
+    }
 
+    public void setRealmResults(RealmResults<T> realmResults) {
         // If automatic updates aren't enabled, then animateResults should be false as well.
         this.animateResults = (automaticUpdate && animateResults);
         if (animateResults) {

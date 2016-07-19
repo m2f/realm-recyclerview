@@ -1,6 +1,7 @@
 package co.moonmonkeylabs.realmrecyclerview.example;
 
 import android.content.Context;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -30,13 +31,10 @@ public class ChatActivity extends RealmBaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
 
-        resetRealm();
+        //resetRealm();
         realm = Realm.getInstance(getRealmConfig());
-        RealmResults<Message> messages = realm
-                .where(Message.class)
-                .findAllSorted("timestamp", Sort.ASCENDING);
-        ChatAdapter chatAdapter =
-                new ChatAdapter(this, messages);
+        final ChatAdapter chatAdapter =
+                new ChatAdapter(this, null);
         RealmRecyclerView realmRecyclerView =
                 (RealmRecyclerView) findViewById(R.id.chat_list_rv);
         realmRecyclerView.setAdapter(chatAdapter);
@@ -49,6 +47,18 @@ public class ChatActivity extends RealmBaseActivity {
                 addMessage(chatInput.getText().toString());
             }
         });
+
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable(){
+            @Override
+            public void run() {
+                RealmResults<Message> messages = realm
+                        .where(Message.class)
+                        .findAllSorted("timestamp", Sort.ASCENDING);
+
+                chatAdapter.setRealmResults(messages);
+            }
+        }, 1000);
     }
 
     @Override
