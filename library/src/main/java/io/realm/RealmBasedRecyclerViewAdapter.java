@@ -292,6 +292,7 @@ public abstract class RealmBasedRecyclerViewAdapter
 
     @Override
     public int getItemCount() {
+        System.out.println("Adapter" + Thread.currentThread().getName());
         int extraCount = loadMoreItem == null ? 0 : 1;
         extraCount += footerItem == null ? 0 : 1;
 
@@ -299,9 +300,10 @@ public abstract class RealmBasedRecyclerViewAdapter
             return rowWrappers.size() + extraCount;
         }
 
-        if (realmResults == null) {
+        if (realmResults == null || !realmResults.isValid()) {
             return extraCount;
         }
+
         return realmResults.size() + extraCount;
     }
 
