@@ -27,6 +27,11 @@ android {
     dexOptions {
         preDexLibraries = false
     }
+
+    lintOptions {
+        abortOnError false
+    }
+
 }
 
 ext.supportLibVersion = '24.2.1'

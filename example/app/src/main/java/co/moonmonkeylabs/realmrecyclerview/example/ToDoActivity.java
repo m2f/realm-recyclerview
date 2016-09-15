@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
@@ -42,11 +43,15 @@ public class ToDoActivity extends RealmBaseActivity {
     };
 
     private Realm realm;
+    private CoordinatorLayout container;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.to_do_layout);
+
+        container = (CoordinatorLayout) findViewById(R.id.container);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -84,7 +89,7 @@ public class ToDoActivity extends RealmBaseActivity {
         builder.setTitle("Create A Task");
 
         LayoutInflater li = LayoutInflater.from(this);
-        View dialogView = li.inflate(R.layout.to_do_dialog_view, null);
+        View dialogView = li.inflate(R.layout.to_do_dialog_view, container);
         final EditText input = (EditText) dialogView.findViewById(R.id.input);
 
         builder.setView(dialogView);
