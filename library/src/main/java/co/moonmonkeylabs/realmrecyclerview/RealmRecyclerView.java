@@ -11,6 +11,8 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewStub;
 import android.widget.FrameLayout;
+import android.widget.TextView;
+
 import com.tonicartos.superslim.LayoutManager;
 
 import io.realm.RealmBasedRecyclerViewAdapter;
@@ -53,6 +55,7 @@ public class RealmRecyclerView extends FrameLayout {
     // Attributes
     private boolean isRefreshable;
     private int emptyViewId;
+    private String emptyMessage;
     private Type type;
     private int gridSpanCount;
     private int gridWidthPx;
@@ -61,6 +64,8 @@ public class RealmRecyclerView extends FrameLayout {
     private Orientation orientation;
     private boolean reverseLayout;
     private boolean stackFromEnd;
+
+    private TextView emptyMessageTv = null;
 
     private GridLayoutManager gridManager;
     private int lastMeasuredWidth = -1;
@@ -117,7 +122,12 @@ public class RealmRecyclerView extends FrameLayout {
             swipeRefreshLayout.setOnRefreshListener(recyclerViewRefreshListener);
         }
 
-        if (emptyViewId != 0) {
+        if(emptyMessage != null) {
+            emptyContentContainer.setLayoutResource(R.layout.empty_message_view);
+            View inflated = emptyContentContainer.inflate();
+            emptyMessageTv = (TextView) inflated.findViewById(R.id.empty_message_tv);
+            emptyMessageTv.setText(emptyMessage);
+        } else if (emptyViewId != 0) {
             emptyContentContainer.setLayoutResource(emptyViewId);
             emptyContentContainer.inflate();
         }
@@ -276,6 +286,7 @@ public class RealmRecyclerView extends FrameLayout {
                 context.obtainStyledAttributes(attrs, R.styleable.RealmRecyclerView);
 
         isRefreshable = typedArray.getBoolean(R.styleable.RealmRecyclerView_rrvIsRefreshable, false);
+        emptyMessage = typedArray.getString(R.styleable.RealmRecyclerView_rrvEmptyMessage);
         emptyViewId = typedArray.getResourceId(R.styleable.RealmRecyclerView_rrvEmptyLayoutId, 0);
         gridSpanCount = typedArray.getInt(R.styleable.RealmRecyclerView_rrvGridLayoutSpanCount, -1);
         gridWidthPx = typedArray.getDimensionPixelSize(R.styleable.RealmRecyclerView_rrvGridLayoutItemWidth, -1);
@@ -350,20 +361,21 @@ public class RealmRecyclerView extends FrameLayout {
 
                         private void update() {
                             if(stackFromEnd) smoothScrollToPosition(adapter.getItemCount());
-                            updateEmptyContentContainerVisibility(adapter);
+                            updateEmptyContentContainerVisibility(adapter, adapter.isLoading());
                         }
                     }
             );
-            updateEmptyContentContainerVisibility(adapter);
+            updateEmptyContentContainerVisibility(adapter, adapter.isLoading());
         }
     }
 
-    private void updateEmptyContentContainerVisibility(RecyclerView.Adapter adapter) {
-        if (emptyViewId == 0) {
-            return;
+    private void updateEmptyContentContainerVisibility(RecyclerView.Adapter adapter, boolean isLoading) {
+        boolean isEmpty = adapter.getItemCount() == 0 && !isLoading;
+        if(null != emptyMessageTv) {
+            emptyMessageTv.setVisibility( isEmpty ? View.VISIBLE : View.GONE);
+        } else if (emptyViewId != 0) {
+            emptyContentContainer.setVisibility( isEmpty ? View.VISIBLE : View.GONE);
         }
-        emptyContentContainer.setVisibility(
-                adapter.getItemCount() == 0 ? View.VISIBLE : View.GONE);
     }
 
     //

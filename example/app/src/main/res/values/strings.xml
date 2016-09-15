@@ -10,6 +10,7 @@
     <string name="section_demo">Section Header Layout Example</string>
     <string name="to_do_demo">Todo Demo</string>
     <string name="chat_demo">Chat Demo</string>
+    <string name="chat_list">Chat List</string>
 
     <string name="title_activity_to_do">To-Do List</string>
     <string name="title_activity_main3">Main3Activity</string>

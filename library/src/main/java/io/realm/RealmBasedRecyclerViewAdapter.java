@@ -77,6 +77,7 @@ public abstract class RealmBasedRecyclerViewAdapter
 
     private Object loadMoreItem;
     private Object footerItem;
+    private boolean isLoading;
 
     protected final int HEADER_VIEW_TYPE = 100;
     private final int LOAD_MORE_VIEW_TYPE = 101;
@@ -157,7 +158,7 @@ public abstract class RealmBasedRecyclerViewAdapter
 
     public void setRealmResults(RealmResults<T> realmResults) {
         // If automatic updates aren't enabled, then animateResults should be false as well.
-        this.animateResults = (automaticUpdate && animateResults);
+        this.animateResults = (automaticUpdate && animateResults && realmResults != null);
         if (animateResults) {
             animatePrimaryColumnIndex = realmResults.getTable().getTable().getPrimaryKey();
             if (animatePrimaryColumnIndex == TableOrView.NO_MATCH) {
@@ -195,7 +196,16 @@ public abstract class RealmBasedRecyclerViewAdapter
                     "A headerColumnName is required for section headers");
         }
 
+        isLoading = false;
         updateRealmResults(realmResults);
+    }
+
+    public boolean isLoading() {
+        return isLoading;
+    }
+
+    public void setLoading(boolean loading) {
+        isLoading = loading;
     }
 
     public abstract VH onCreateRealmViewHolder(ViewGroup viewGroup, int viewType);

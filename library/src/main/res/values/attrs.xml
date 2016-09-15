@@ -2,6 +2,7 @@
 <resources>
     <declare-styleable name="RealmRecyclerView">
         <attr name="rrvIsRefreshable" format="boolean"/>
+        <attr name="rrvEmptyMessage" format="string"/>
         <attr name="rrvEmptyLayoutId" format="reference"/>
         <attr name="rrvGridLayoutSpanCount" format="integer"/>
         <attr name="rrvGridLayoutItemWidth" format="dimension"/>

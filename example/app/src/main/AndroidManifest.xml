@@ -35,6 +35,7 @@
             android:name=".ToDoActivity"
             android:label="@string/title_activity_to_do"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".ChatListActivity"></activity>
     </application>
 
 </manifest>
