@@ -20,6 +20,7 @@ package io.realm;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -160,12 +161,12 @@ public abstract class RealmBasedRecyclerViewAdapter
         // If automatic updates aren't enabled, then animateResults should be false as well.
         this.animateResults = (automaticUpdate && animateResults && realmResults != null);
         if (animateResults) {
-            animatePrimaryColumnIndex = realmResults.getTable().getTable().getPrimaryKey();
+            animatePrimaryColumnIndex = realmResults.getTableOrView().getTable().getPrimaryKey();
             if (animatePrimaryColumnIndex == TableOrView.NO_MATCH) {
                 throw new IllegalStateException(
                         "Animating the results requires a primaryKey.");
             }
-            animatePrimaryIdType = realmResults.getTable().getColumnType(animatePrimaryColumnIndex);
+            animatePrimaryIdType = realmResults.getTableOrView().getColumnType(animatePrimaryColumnIndex);
             if (animatePrimaryIdType != RealmFieldType.INTEGER &&
                     animatePrimaryIdType != RealmFieldType.STRING) {
                 throw new IllegalStateException(
@@ -173,13 +174,13 @@ public abstract class RealmBasedRecyclerViewAdapter
             }
 
             if (animateExtraColumnName != null) {
-                animateExtraColumnIndex = realmResults.getTable().getTable()
+                animateExtraColumnIndex = realmResults.getTableOrView().getTable()
                         .getColumnIndex(animateExtraColumnName);
                 if (animateExtraColumnIndex == TableOrView.NO_MATCH) {
                     throw new IllegalStateException(
                             "Animating the results requires a valid animateColumnName.");
                 }
-                animateExtraIdType = realmResults.getTable().getColumnType(animateExtraColumnIndex);
+                animateExtraIdType = realmResults.getTableOrView().getColumnType(animateExtraColumnIndex);
                 if (animateExtraIdType != RealmFieldType.INTEGER &&
                         animateExtraIdType != RealmFieldType.STRING &&
                         animateExtraIdType != RealmFieldType.DATE) {
@@ -302,7 +303,6 @@ public abstract class RealmBasedRecyclerViewAdapter
 
     @Override
     public int getItemCount() {
-        System.out.println("Adapter" + Thread.currentThread().getName());
         int extraCount = loadMoreItem == null ? 0 : 1;
         extraCount += footerItem == null ? 0 : 1;
 
@@ -448,7 +448,7 @@ public abstract class RealmBasedRecyclerViewAdapter
             int sectionFirstPosition = 0;
             rowWrappers.clear();
 
-            final long headerIndex = realmResults.getTable().getColumnIndex(headerColumnName);
+            final long headerIndex = realmResults.getTableOrView().getColumnIndex(headerColumnName);
             int i = 0;
             for (RealmModel result : realmResults) {
                 Object rawHeader;
@@ -497,7 +497,7 @@ public abstract class RealmBasedRecyclerViewAdapter
                         return;
                     }
                     Patch patch = DiffUtils.diff(ids, newIds);
-                    List    <Delta> deltas = patch.getDeltas();
+                    List<Delta> deltas = patch.getDeltas();
                     ids = newIds;
                     if (deltas.isEmpty()) {
                         // Nothing has changed - most likely because the notification was for

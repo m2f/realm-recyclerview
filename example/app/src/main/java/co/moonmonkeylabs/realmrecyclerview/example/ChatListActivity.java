@@ -22,6 +22,7 @@ import io.realm.Realm;
 import io.realm.RealmBasedRecyclerViewAdapter;
 import io.realm.RealmResults;
 import io.realm.RealmViewHolder;
+import io.realm.Sort;
 
 public class ChatListActivity extends RealmBaseActivity {
 
@@ -67,7 +68,7 @@ public class ChatListActivity extends RealmBaseActivity {
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                chatListAdapter.setRealmResults(realm.where(Message.class).findAll());
+                chatListAdapter.setRealmResults(realm.where(Message.class).findAllSorted("timestamp", Sort.ASCENDING));
                 //chatListAdapter.setRealmResults(null);
                 p.setVisibility(View.GONE);
             }

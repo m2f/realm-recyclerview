@@ -11,6 +11,7 @@ public class Message extends RealmObject {
 
     @PrimaryKey
     private String messageId;
+    boolean isIncoming;
     private String message;
     private long timestamp;
 
@@ -36,5 +37,13 @@ public class Message extends RealmObject {
 
     public void setTimestamp(long timestamp) {
         this.timestamp = timestamp;
+    }
+
+    public boolean isIncoming() {
+        return isIncoming;
+    }
+
+    public void setIncoming(boolean incoming) {
+        isIncoming = incoming;
     }
 }
