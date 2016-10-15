@@ -361,28 +361,20 @@ public class RealmRecyclerView extends FrameLayout {
 
                         private void update() {
                             if(stackFromEnd) smoothScrollToPosition(adapter.getItemCount());
-                            updateEmptyContentContainerVisibility(adapter, adapter.isLoading());
                         }
                     }
             );
-            updateEmptyContentContainerVisibility(adapter, adapter.isLoading());
         }
     }
 
-    private void updateEmptyContentContainerVisibility(RecyclerView.Adapter adapter, boolean isLoading) {
-        boolean isEmpty = adapter.getItemCount() == 0 && !isLoading;
+    public void setEmptyStubVisibility(boolean visible) {
         if(null != emptyMessageTv) {
-            emptyMessageTv.setVisibility( isEmpty ? View.VISIBLE : View.GONE);
+            emptyMessageTv.setVisibility( visible ? View.VISIBLE : View.GONE);
         } else if (emptyViewId != 0) {
-            emptyContentContainer.setVisibility( isEmpty ? View.VISIBLE : View.GONE);
+            emptyContentContainer.setVisibility( visible ? View.VISIBLE : View.GONE);
         }
     }
 
-    //
-    // Expose public RecyclerView methods to the RealmRecyclerView
-    //
-    
-    
     public void setItemViewCacheSize(int size) {
         recyclerView.setItemViewCacheSize(size);
     }

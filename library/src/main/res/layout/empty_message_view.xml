@@ -12,5 +12,5 @@
         android:gravity="center_horizontal"
         android:text="No items to display"
         android:textSize="20sp"
-        />
+        android:visibility="gone"/>
 </FrameLayout>
