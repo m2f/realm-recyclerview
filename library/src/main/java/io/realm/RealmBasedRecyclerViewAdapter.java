@@ -20,7 +20,6 @@ package io.realm;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -102,6 +101,12 @@ public abstract class RealmBasedRecyclerViewAdapter
     private long animateExtraColumnIndex;
     private RealmFieldType animateExtraIdType;
 
+    public interface OnRealmDataChange {
+        void onDataChange(RealmResults<? extends RealmModel> newData);
+    }
+
+    private OnRealmDataChange onRealmDataChangeListener;
+
     public RealmBasedRecyclerViewAdapter(
             Context context,
             RealmResults<T> realmResults,
@@ -154,6 +159,10 @@ public abstract class RealmBasedRecyclerViewAdapter
         if(null != realmResults) {
             setRealmResults(realmResults);
         }
+    }
+
+    public void setOnRealmDataChangeListener(OnRealmDataChange onRealmDataChangeListener) {
+        this.onRealmDataChangeListener = onRealmDataChangeListener;
     }
 
     public void setRealmResults(RealmResults<T> realmResults) {
@@ -477,6 +486,11 @@ public abstract class RealmBasedRecyclerViewAdapter
         return new RealmChangeListener<RealmResults<T>>() {
             @Override
             public void onChange(RealmResults<T> element) {
+                //notify of data change if any listener is registered
+                if(null != onRealmDataChangeListener) {
+                    onRealmDataChangeListener.onDataChange(element);
+                }
+
                 if (animateResults && ids != null && !ids.isEmpty()) {
                     updateRowWrappers();
                     List newIds = getIdsOfRealmResults();
