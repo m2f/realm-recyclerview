@@ -29,6 +29,8 @@ import com.tonicartos.superslim.GridSLM;
 import com.tonicartos.superslim.LinearSLM;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import co.moonmonkeylabs.realmrecyclerview.LoadMoreListItemView;
@@ -186,14 +188,14 @@ public abstract class RealmBasedRecyclerViewAdapter
                         .getColumnIndex(animateExtraColumnName);
                 if (animateExtraColumnIndex == TableOrView.NO_MATCH) {
                     throw new IllegalStateException(
-                            "Animating the results requires a valid animateColumnName.");
+                            "Animating the results requires a valid animateExtraColumnName.");
                 }
                 animateExtraIdType = realmResults.getTableOrView().getColumnType(animateExtraColumnIndex);
                 if (animateExtraIdType != RealmFieldType.INTEGER &&
                         animateExtraIdType != RealmFieldType.STRING &&
                         animateExtraIdType != RealmFieldType.DATE) {
                     throw new IllegalStateException(
-                            "Animating requires a animateColumnName of type Int/Long or String");
+                            "Animating requires a animateExtraColumnName of type Integer/Long, Date or String");
                 }
             } else {
                 animateExtraColumnIndex = -1;
@@ -359,7 +361,9 @@ public abstract class RealmBasedRecyclerViewAdapter
         updateRowWrappers();
         ids = getIdsOfRealmResults();
 
-        notifyDataSetChanged();
+        if (realmResults != null) {
+	    notifyDataSetChanged();
+	}
     }
 
     /**
@@ -518,7 +522,18 @@ public abstract class RealmBasedRecyclerViewAdapter
                         return;
                     }
                     Patch patch = DiffUtils.diff(ids, newIds);
-                    List<Delta> deltas = patch.getDeltas();
+                    List <Delta> deltas = patch.getDeltas();
+                    // Delete deltas should be actioned first.
+                    Collections.sort(deltas, new Comparator<Delta>() {
+                        @Override
+                        public int compare(Delta delta, Delta t1) {
+                            if (delta.getType() == t1.getType()) {
+                                return 0;
+                            } else if (delta.getType() == Delta.TYPE.DELETE && t1.getType() == Delta.TYPE.INSERT) {
+                                return -1;
+                            } else return 1;
+                        }
+                    });
                     ids = newIds;
                     if (deltas.isEmpty()) {
                         // Nothing has changed - most likely because the notification was for
