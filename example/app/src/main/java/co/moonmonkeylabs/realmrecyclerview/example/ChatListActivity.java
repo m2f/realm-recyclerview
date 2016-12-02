@@ -57,7 +57,6 @@ public class ChatListActivity extends RealmBaseActivity {
         resetRealm();
         realm = Realm.getInstance(getRealmConfig());
         final ChatListAdapter chatListAdapter = new ChatListAdapter(this, null);
-        chatListAdapter.setLoading(true);
         final RealmRecyclerView realmRecyclerView = (RealmRecyclerView) findViewById(R.id.chat_list_rv);
         realmRecyclerView.setAdapter(chatListAdapter);
         realmRecyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL_LIST));
@@ -77,8 +76,7 @@ public class ChatListActivity extends RealmBaseActivity {
     private void addMessages() {
         for (String quote: quotes) {
             realm.beginTransaction();
-            Message message = realm.createObject(Message.class);
-            message.setMessageId(UUID.randomUUID().toString());
+            Message message = realm.createObject(Message.class, UUID.randomUUID().toString());
             message.setMessage(quote);
             message.setTimestamp(System.currentTimeMillis());
             realm.commitTransaction();
@@ -118,4 +116,11 @@ public class ChatListActivity extends RealmBaseActivity {
         }
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if(null != realm) {
+            realm.close();
+        }
+    }
 }

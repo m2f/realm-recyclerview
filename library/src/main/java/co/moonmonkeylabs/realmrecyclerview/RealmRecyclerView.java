@@ -6,6 +6,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.AttributeSet;
 import android.view.View;
@@ -36,7 +37,8 @@ public class RealmRecyclerView extends FrameLayout {
     private enum Type {
         LinearLayout,
         Grid,
-        LinearLayoutWithHeaders
+        LinearLayoutWithHeaders,
+	StaggeredGridLayout
     }
 
     private enum Orientation {
@@ -67,6 +69,7 @@ public class RealmRecyclerView extends FrameLayout {
 
     private TextView emptyMessageTv = null;
 
+    private StaggeredGridLayoutManager staggeredGridManager;
     private GridLayoutManager gridManager;
     private int lastMeasuredWidth = -1;
 
@@ -165,6 +168,12 @@ public class RealmRecyclerView extends FrameLayout {
                 recyclerView.setLayoutManager(new LayoutManager(getContext()));
                 break;
 
+            case StaggeredGridLayout:
+                int staggeredSpanCount = gridSpanCount == -1 ? 1 : gridSpanCount;
+                staggeredGridManager = new StaggeredGridLayoutManager(staggeredSpanCount, StaggeredGridLayoutManager.VERTICAL);
+                recyclerView.setLayoutManager(staggeredGridManager);
+                break;
+
             default:
                 throw new IllegalStateException("The type attribute has to be set.");
         }
@@ -211,10 +220,13 @@ public class RealmRecyclerView extends FrameLayout {
      * will do its best to keep scroll position.
      */
     public void setOrientation(int orientation) {
-        if(gridManager == null) {
-            throw new IllegalStateException("Error init of GridLayoutManager");
+        if (gridManager != null) {
+            gridManager.setOrientation(orientation);
+        } else if (staggeredGridManager != null) {
+            staggeredGridManager.setOrientation(orientation);
+        } else {
+            throw new IllegalStateException("Error init of your LayoutManager");
         }
-        gridManager.setOrientation(orientation);
     }
 
     private void throwIfSwipeToDeleteEnabled() {
@@ -275,6 +287,9 @@ public class RealmRecyclerView extends FrameLayout {
             case LinearLayoutWithHeaders:
                 return ((LayoutManager) recyclerView.getLayoutManager())
                         .findFirstVisibleItemPosition();
+            case StaggeredGridLayout:
+                return ((StaggeredGridLayoutManager) recyclerView.getLayoutManager())
+                        .findFirstVisibleItemPositions(null)[0];
             default:
                 throw new IllegalStateException("Type of layoutManager unknown." +
                         "In this case this method needs to be overridden");

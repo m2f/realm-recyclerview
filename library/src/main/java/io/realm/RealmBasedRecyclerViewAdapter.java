@@ -382,6 +382,19 @@ public abstract class RealmBasedRecyclerViewAdapter
 
     }
 
+    public String getHeaderAtPosition(int position) {
+        for (int i = rowWrappers.size() - 1; i >= 0; i--) {
+            RowWrapper rowWrapper = rowWrappers.get(i);
+            if (!rowWrapper.isRealm) {
+                if (rowWrapper.sectionHeaderIndex <= position) {
+                    return rowWrapper.header;
+                }
+            }
+        }
+
+        return null;
+    }
+
     private List getIdsOfRealmResults() {
         if (!animateResults || realmResults == null || realmResults.size() == 0) {
             return EMPTY_LIST;
@@ -447,7 +460,7 @@ public abstract class RealmBasedRecyclerViewAdapter
             int sectionFirstPosition = 0;
             rowWrappers.clear();
 
-            final long headerIndex = realmResults.getTableOrView().getColumnIndex(headerColumnName);
+            final long headerIndex = realmResults.getTableOrView().getTable().getColumnIndex(headerColumnName);
             int i = 0;
             for (RealmModel result : realmResults) {
                 Object rawHeader;
@@ -480,6 +493,10 @@ public abstract class RealmBasedRecyclerViewAdapter
                 rowWrappers.add(new RowWrapper(i++, sectionFirstPosition));
             }
         }
+    }
+
+    public List<RowWrapper> getRowWrappers() {
+        return rowWrappers;
     }
 
     private RealmChangeListener<RealmResults<T>> getRealmChangeListener() {
