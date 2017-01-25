@@ -96,6 +96,7 @@ public abstract class RealmBasedRecyclerViewAdapter
     private boolean automaticUpdate;
     private boolean animateResults;
     private boolean addSectionHeaders;
+    private boolean isStickyHeader;
     private String headerColumnName;
 
     private long animatePrimaryColumnIndex;
@@ -144,6 +145,18 @@ public abstract class RealmBasedRecyclerViewAdapter
             boolean addSectionHeaders,
             String headerColumnName,
             String animateExtraColumnName) {
+        this(context, realmResults, automaticUpdate, animateResults, addSectionHeaders,
+                headerColumnName, animateExtraColumnName, false);
+    }
+
+    public RealmBasedRecyclerViewAdapter(
+            Context context,
+            RealmResults<T> realmResults,
+            boolean automaticUpdate,
+            boolean animateResults,
+            boolean addSectionHeaders,
+            String headerColumnName,
+            String animateExtraColumnName, boolean isStickyHeader) {
         if (context == null) {
             throw new IllegalArgumentException("Context cannot be null");
         }
@@ -154,6 +167,7 @@ public abstract class RealmBasedRecyclerViewAdapter
         this.animateResults = animateResults;
         this.addSectionHeaders = addSectionHeaders;
         this.headerColumnName = headerColumnName;
+        this.isStickyHeader = isStickyHeader;
         this.inflater = LayoutInflater.from(context);
         this.listener = (!automaticUpdate) ? null : getRealmChangeListener();
 
@@ -162,6 +176,8 @@ public abstract class RealmBasedRecyclerViewAdapter
             setRealmResults(realmResults);
         }
     }
+
+
 
     public void setOnRealmDataChangeListener(OnRealmDataChange onRealmDataChangeListener) {
         this.onRealmDataChangeListener = onRealmDataChangeListener;
@@ -270,7 +286,7 @@ public abstract class RealmBasedRecyclerViewAdapter
         } else if (getItemViewType(position) == FOOTER_VIEW_TYPE) {
             onBindFooterViewHolder((VH) holder, position);
         } else {
-            if (addSectionHeaders) {
+            if (addSectionHeaders && isStickyHeader) {
                 final String header = rowWrappers.get(position).header;
                 final GridSLM.LayoutParams layoutParams =
                         GridSLM.LayoutParams.from(holder.itemView.getLayoutParams());
@@ -324,7 +340,7 @@ public abstract class RealmBasedRecyclerViewAdapter
             return LOAD_MORE_VIEW_TYPE;
         } else if (footerItem != null && position == getItemCount() - 1) {
             return FOOTER_VIEW_TYPE;
-        } else if (!rowWrappers.isEmpty() && !rowWrappers.get(position).isRealm) {
+        } else if (isStickyHeader && !rowWrappers.isEmpty() && !rowWrappers.get(position).isRealm) {
             return HEADER_VIEW_TYPE;
         }
         return getItemRealmViewType(position);
