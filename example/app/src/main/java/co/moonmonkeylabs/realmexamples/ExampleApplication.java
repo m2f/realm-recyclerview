@@ -1,4 +1,4 @@
-package co.moonmonkeylabs.realmrecyclerview.example;
+package co.moonmonkeylabs.realmexamples;
 
 import android.app.Application;
 

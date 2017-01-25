@@ -1,4 +1,4 @@
-package co.moonmonkeylabs.realmrecyclerview.example;
+package co.moonmonkeylabs.realmexamples.realmrecyclerview;
 
 import android.content.Context;
 import android.os.AsyncTask;
@@ -10,8 +10,9 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
+import co.moonmonkeylabs.realmexamples.R;
+import co.moonmonkeylabs.realmexamples.realmrecyclerview.models.CountryModel;
 import co.moonmonkeylabs.realmrecyclerview.RealmRecyclerView;
-import co.moonmonkeylabs.realmrecyclerview.example.models.CountryModel;
 import io.realm.Realm;
 import io.realm.RealmBasedRecyclerViewAdapter;
 import io.realm.RealmResults;

@@ -5,7 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="co.moonmonkeylabs.realmrecyclerview.example.ChatListActivity">
+    tools:context="co.moonmonkeylabs.realmrecyclerview.example.co.moonmonkeylabs.realmrecyclerview.ChatListActivity">
 
     <co.moonmonkeylabs.realmrecyclerview.RealmRecyclerView
         android:id="@+id/chat_list_rv"

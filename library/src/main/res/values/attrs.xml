@@ -21,4 +21,12 @@
             <enum name="Horizontal" value="1"/>
         </attr>
     </declare-styleable>
+
+    <declare-styleable name="RealmSearchView">
+        <attr name="rsvHint" format="reference"/>
+        <attr name="rsvClearDrawable" format="reference"/>
+        <attr name="rsvAddFooter" format="boolean"/>
+        <attr name="rsvAddFooterText" format="reference"/>
+    </declare-styleable>
+
 </resources>

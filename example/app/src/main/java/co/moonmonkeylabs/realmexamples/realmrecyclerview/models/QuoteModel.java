@@ -1,4 +1,4 @@
-package co.moonmonkeylabs.realmrecyclerview.example.models;
+package co.moonmonkeylabs.realmexamples.realmrecyclerview.models;
 
 import java.util.Date;
 

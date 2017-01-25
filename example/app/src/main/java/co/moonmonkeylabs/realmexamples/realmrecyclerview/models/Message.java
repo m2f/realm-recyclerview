@@ -1,8 +1,4 @@
-package co.moonmonkeylabs.realmrecyclerview.example.models;
-
-import android.database.Cursor;
-
-import java.util.List;
+package co.moonmonkeylabs.realmexamples.realmrecyclerview.models;
 
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;

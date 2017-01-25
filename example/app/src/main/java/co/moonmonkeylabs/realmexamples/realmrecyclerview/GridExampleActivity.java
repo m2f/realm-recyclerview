@@ -1,4 +1,4 @@
-package co.moonmonkeylabs.realmrecyclerview.example;
+package co.moonmonkeylabs.realmexamples.realmrecyclerview;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
+import co.moonmonkeylabs.realmexamples.R;
 import co.moonmonkeylabs.realmnytimesdata.NYTimesDataLoader;
 import co.moonmonkeylabs.realmnytimesdata.NYTimesModule;
 import co.moonmonkeylabs.realmnytimesdata.model.NYTimesMultimedium;

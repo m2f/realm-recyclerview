@@ -11,9 +11,12 @@
     <string name="section_demo">Section Header Layout Example</string>
     <string name="to_do_demo">Todo Demo</string>
     <string name="loading_list">Loading List</string>
+    <string name="search_activity">Search Activity</string>
 
     <string name="title_activity_to_do">To-Do List</string>
     <string name="title_activity_main3">Main3Activity</string>
     <string name="type_your_message">Type your message here</string>
+
+    <string name="search_hint">Search...</string>
 
 </resources>

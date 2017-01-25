@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- App Main Palette -->
+    <color name="color_primary">#4A4E5C</color>
+    <color name="color_primary_dark">#2F313A</color>
+    <color name="color_accent">#FE7847</color>
+
+</resources>

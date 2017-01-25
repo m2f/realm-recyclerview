@@ -1,4 +1,4 @@
-package co.moonmonkeylabs.realmrecyclerview.example;
+package co.moonmonkeylabs.realmexamples.realmrecyclerview;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -16,8 +16,9 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
+import co.moonmonkeylabs.realmexamples.R;
+import co.moonmonkeylabs.realmexamples.realmrecyclerview.models.QuoteModel;
 import co.moonmonkeylabs.realmrecyclerview.RealmRecyclerView;
-import co.moonmonkeylabs.realmrecyclerview.example.models.QuoteModel;
 import io.realm.Realm;
 import io.realm.RealmBasedRecyclerViewAdapter;
 import io.realm.RealmResults;

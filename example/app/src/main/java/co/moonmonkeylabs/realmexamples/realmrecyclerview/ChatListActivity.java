@@ -1,10 +1,8 @@
-package co.moonmonkeylabs.realmrecyclerview.example;
+package co.moonmonkeylabs.realmexamples.realmrecyclerview;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -15,9 +13,10 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
+import co.moonmonkeylabs.realmexamples.R;
+import co.moonmonkeylabs.realmexamples.realmrecyclerview.models.Message;
 import co.moonmonkeylabs.realmrecyclerview.DividerItemDecoration;
 import co.moonmonkeylabs.realmrecyclerview.RealmRecyclerView;
-import co.moonmonkeylabs.realmrecyclerview.example.models.Message;
 import io.realm.Realm;
 import io.realm.RealmBasedRecyclerViewAdapter;
 import io.realm.RealmResults;

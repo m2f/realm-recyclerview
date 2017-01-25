@@ -1,20 +1,30 @@
-package co.moonmonkeylabs.realmrecyclerview.example;
+package co.moonmonkeylabs.realmexamples.realmrecyclerview;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 
+import co.moonmonkeylabs.realmexamples.R;
+import co.moonmonkeylabs.realmexamples.realmsearchview.SampleSearchActivity;
+
 public class LayoutSelectorActivity extends AppCompatActivity {
+
+    Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_layout_selector);
-        setTitle(R.string.activity_selector_name);
+
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        getSupportActionBar().setTitle(R.string.activity_selector_name);
 
         addOnClickListenerToActivity(R.id.recycler_grid_button, GridExampleActivity.class, "Grid");
 
@@ -31,6 +41,8 @@ public class LayoutSelectorActivity extends AppCompatActivity {
         addOnClickListenerToActivity(R.id.recycler_section_header_button, MainActivity2.class, "Header (SLM) ");
 
         addOnClickListenerToActivity(R.id.recycler_loading_list, ChatListActivity.class, "Loading List ");
+
+        addOnClickListenerToActivity(R.id.search_view, SampleSearchActivity.class, "Search Activity");
     }
 
     private Button addOnClickListenerToActivity(@IdRes int viewId, final Class<?> activity, @Nullable final String typeExtra) {
