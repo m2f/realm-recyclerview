@@ -172,12 +172,11 @@ public abstract class RealmBasedRecyclerViewAdapter
         this.listener = (!automaticUpdate) ? null : getRealmChangeListener();
 
         rowWrappers = new ArrayList<>();
+        ids = new ArrayList<>();
         if(null != realmResults) {
             setRealmResults(realmResults);
         }
     }
-
-
 
     public void setOnRealmDataChangeListener(OnRealmDataChange onRealmDataChangeListener) {
         this.onRealmDataChangeListener = onRealmDataChangeListener;
@@ -378,8 +377,8 @@ public abstract class RealmBasedRecyclerViewAdapter
         ids = getIdsOfRealmResults();
 
         if (realmResults != null) {
-	    notifyDataSetChanged();
-	}
+    	    notifyDataSetChanged();
+	    }
     }
 
     /**
@@ -528,8 +527,9 @@ public abstract class RealmBasedRecyclerViewAdapter
                     onRealmDataChangeListener.onDataChange(element);
                 }
 
-                if (animateResults && ids != null && !ids.isEmpty()) {
-                    updateRowWrappers();
+                updateRowWrappers();
+
+                if (animateResults) {
                     List newIds = getIdsOfRealmResults();
                     // If the list is now empty, just notify the recyclerView of the change.
                     if (newIds.isEmpty()) {

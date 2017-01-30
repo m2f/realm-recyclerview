@@ -166,7 +166,6 @@ public class RealmRecyclerView extends FrameLayout {
             case LinearLayoutWithHeaders:
                 throwIfSwipeToDeleteEnabled();
                 LayoutManager managerHeader = new LayoutManager(getContext());
-//                managerHeader.setStackFromEnd(stackFromEnd);
                 recyclerView.setLayoutManager(managerHeader);
                 break;
 
