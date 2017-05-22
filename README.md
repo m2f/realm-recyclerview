@@ -23,7 +23,7 @@ A powerful ```RecyclerView``` wrapper for working with ```Realm``` as your datas
 
 ```
 	dependencies {
-	        compile 'com.github.m2f:realm-recyclerview:0.9.28'
+	        compile 'com.github.m2f.realm-recyclerview:library:0.9.28'
 	}
 ```
 

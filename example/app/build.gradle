@@ -12,11 +12,11 @@ android {
         versionCode 1
         versionName "1.0"
         vectorDrawables.useSupportLibrary = true
+        buildConfigField "String", "NY_TIMES_API_KEY",
+                project.hasProperty("ny_times_api_key") ? project.property("ny_times_api_key").toString() : "\"YOUR_API_KEY\""
     }
     buildTypes {
         debug {
-            buildConfigField "String", "NY_TIMES_API_KEY",
-                    project.hasProperty("ny_times_api_key") ? project.property("ny_times_api_key").toString() : "\"YOUR_API_KEY\""
         }
         release {
             minifyEnabled false
