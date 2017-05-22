@@ -21,7 +21,6 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,20 +30,12 @@ import com.tonicartos.superslim.GridSLM;
 import com.tonicartos.superslim.LinearSLM;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import co.moonmonkeylabs.realmrecyclerview.LoadMoreListItemView;
 import co.moonmonkeylabs.realmrecyclerview.R;
 import co.moonmonkeylabs.realmrecyclerview.RealmRecyclerView;
-import difflib.Chunk;
-import difflib.Delta;
-import difflib.DiffUtils;
-import difflib.Patch;
 import io.realm.internal.RealmObjectProxy;
-import io.realm.internal.Row;
-import io.realm.internal.Table;
 
 /**
  * The base {@link RecyclerView.Adapter} that includes custom functionality to be used with the
