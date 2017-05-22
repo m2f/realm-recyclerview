@@ -22,26 +22,32 @@
 
         <activity
             android:name=".realmrecyclerview.MainActivity"
-            android:label="@string/app_name" />
+            android:label="@string/app_name"
+            android:parentActivityName=".realmrecyclerview.LayoutSelectorActivity"/>
 
         <activity
             android:name=".realmrecyclerview.MainActivity2"
-            android:label="@string/app_name" />
+            android:label="@string/app_name"
+            android:parentActivityName=".realmrecyclerview.LayoutSelectorActivity"/>
 
         <activity
             android:name=".realmrecyclerview.GridExampleActivity"
-            android:label="@string/app_name" />
+            android:label="@string/app_name"
+            android:parentActivityName=".realmrecyclerview.LayoutSelectorActivity"/>
 
         <activity
             android:name=".realmrecyclerview.ToDoActivity"
             android:label="@string/title_activity_to_do"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:parentActivityName=".realmrecyclerview.LayoutSelectorActivity"/>
 
         <activity
-            android:name=".realmrecyclerview.ChatListActivity" />
+            android:name=".realmrecyclerview.LoadingListActivity"
+            android:parentActivityName=".realmrecyclerview.LayoutSelectorActivity"/>
 
         <activity
-            android:name=".realmsearchview.SampleSearchActivity" />
+            android:name=".realmsearchview.SampleSearchActivity"
+            android:parentActivityName=".realmrecyclerview.LayoutSelectorActivity"/>
 
     </application>
 

@@ -3,6 +3,7 @@ package co.moonmonkeylabs.realmexamples.realmrecyclerview;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -23,7 +24,7 @@ import io.realm.RealmResults;
 import io.realm.RealmViewHolder;
 import io.realm.Sort;
 
-public class ChatListActivity extends RealmBaseActivity {
+public class LoadingListActivity extends RealmBaseActivity {
 
     private Realm realm;
     private static List<String> quotes = Arrays.asList(
@@ -52,25 +53,37 @@ public class ChatListActivity extends RealmBaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_chat_list);
+        setContentView(R.layout.activity_loading_list);
+
+        Toolbar myToolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(myToolbar);
+        if(null != getSupportActionBar()) {
+            getSupportActionBar().setTitle("Loading List");
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
+
         resetRealm();
         realm = Realm.getInstance(getRealmConfig());
-        final ChatListAdapter chatListAdapter = new ChatListAdapter(this, null);
-        final RealmRecyclerView realmRecyclerView = (RealmRecyclerView) findViewById(R.id.chat_list_rv);
-        realmRecyclerView.setAdapter(chatListAdapter);
+
+        final LoadingListAdapter loadingListAdapter = new LoadingListAdapter(this, null);
+
+        final RealmRecyclerView realmRecyclerView = (RealmRecyclerView) findViewById(R.id.list_rv);
+        realmRecyclerView.setAdapter(loadingListAdapter);
         realmRecyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL_LIST));
+
         final Handler handler = new Handler();
         addMessages();
-        final ProgressBar p = (ProgressBar) findViewById(R.id.chat_list_loading);
+        final ProgressBar p = (ProgressBar) findViewById(R.id.loading_list);
         p.setVisibility(View.VISIBLE);
+
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                chatListAdapter.setRealmResults(realm.where(Message.class).findAllSorted("timestamp", Sort.ASCENDING));
-                //chatListAdapter.setRealmResults(null);
+                loadingListAdapter.setAdapterData(realm.where(Message.class).findAllSorted("timestamp", Sort.ASCENDING));
                 p.setVisibility(View.GONE);
             }
-        }, 4000);    }
+        }, 3000);
+    }
 
     private void addMessages() {
         for (String quote: quotes) {
@@ -82,29 +95,29 @@ public class ChatListActivity extends RealmBaseActivity {
         }
     }
 
-    public class ChatListAdapter extends RealmBasedRecyclerViewAdapter<Message, ChatListAdapter.MessageViewHolder> {
+    public class LoadingListAdapter extends RealmBasedRecyclerViewAdapter<Message, LoadingListAdapter.QuoteViewHolder> {
 
-        public ChatListAdapter(Context context, RealmResults<Message> realmResults) {
+        public LoadingListAdapter(Context context, RealmResults<Message> realmResults) {
             super(context, realmResults, true, true);
         }
 
         @Override
-        public MessageViewHolder onCreateRealmViewHolder(ViewGroup viewGroup, int i) {
-            View v = inflater.inflate(R.layout.chat_item_view, viewGroup, false);
-            return new MessageViewHolder((FrameLayout) v);
+        public QuoteViewHolder onCreateRealmViewHolder(ViewGroup viewGroup, int i) {
+            View v = inflater.inflate(R.layout.loading_item_view, viewGroup, false);
+            return new QuoteViewHolder((FrameLayout) v);
         }
 
         @Override
-        public void onBindRealmViewHolder(MessageViewHolder messageViewHolder, int position) {
-            final Message message = realmResults.get(position);
-            messageViewHolder.todoTextView.setText(message.getMessage());
+        public void onBindRealmViewHolder(QuoteViewHolder quoteViewHolder, int position) {
+            final Message message = adapterData.get(position);
+            quoteViewHolder.quoteTextView.setText(message.getMessage());
         }
 
-        public class MessageViewHolder extends RealmViewHolder {
-            public TextView todoTextView;
-            public MessageViewHolder(FrameLayout container) {
+        public class QuoteViewHolder extends RealmViewHolder {
+            public TextView quoteTextView;
+            public QuoteViewHolder(FrameLayout container) {
                 super(container);
-                this.todoTextView = (TextView) container.findViewById(R.id.todo_text_view);
+                this.quoteTextView = (TextView) container.findViewById(R.id.quote_text_view);
                 itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {

@@ -38,9 +38,10 @@ public class LayoutSelectorActivity extends AppCompatActivity {
 
         addOnClickListenerToActivity(R.id.recycler_linear_with_load_more_button, MainActivity.class, "LinearLoadMore");
 
-        addOnClickListenerToActivity(R.id.recycler_section_header_button, MainActivity2.class, "Header (SLM) ");
+        addOnClickListenerToActivity(R.id.recycler_loading_list, LoadingListActivity.class, "Loading List ");
 
-        addOnClickListenerToActivity(R.id.recycler_loading_list, ChatListActivity.class, "Loading List ");
+        //TODO: Fix the below use cases
+        addOnClickListenerToActivity(R.id.recycler_section_header_button, MainActivity2.class, "Header (SLM) ");
 
         addOnClickListenerToActivity(R.id.search_view, SampleSearchActivity.class, "Search Activity");
     }

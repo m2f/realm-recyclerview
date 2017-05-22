@@ -120,7 +120,7 @@ public abstract class RealmSearchAdapter<T extends RealmObject, VH extends Realm
         } else {
             businesses = where.findAllSorted(sortKey, sortOrder);
         }
-        updateRealmResults(businesses);
+        updateAdapterData(businesses);
     }
 
     /**

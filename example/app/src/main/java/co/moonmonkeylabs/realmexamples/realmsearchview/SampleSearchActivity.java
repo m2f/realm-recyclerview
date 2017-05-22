@@ -170,7 +170,7 @@ public class SampleSearchActivity extends AppCompatActivity {
 
         @Override
         public void onBindRealmViewHolder(ViewHolder viewHolder, int position) {
-            final Blog blog = realmResults.get(position);
+            final Blog blog = adapterData.get(position);
             viewHolder.blogItemView.bind(blog);
         }
 

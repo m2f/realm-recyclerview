@@ -3,6 +3,7 @@ package co.moonmonkeylabs.realmexamples.realmrecyclerview;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -12,6 +13,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
+import co.moonmonkeylabs.realmexamples.BuildConfig;
 import co.moonmonkeylabs.realmexamples.R;
 import co.moonmonkeylabs.realmnytimesdata.NYTimesDataLoader;
 import co.moonmonkeylabs.realmnytimesdata.NYTimesModule;
@@ -29,7 +31,7 @@ import io.realm.Sort;
 public class GridExampleActivity extends AppCompatActivity {
 
     private static final String REPLACE_WITH_YOUR_API_KEY = "YOUR_API_KEY";
-    private static final String NY_TIMES_API_KEY = REPLACE_WITH_YOUR_API_KEY;
+    private static final String NY_TIMES_API_KEY = BuildConfig.NY_TIMES_API_KEY;
 
     private RealmRecyclerView realmRecyclerView;
     private NYTimesStoryRecyclerViewAdapter nyTimesStoryAdapter;
@@ -40,11 +42,17 @@ public class GridExampleActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main_grid_layout);
-        realmRecyclerView = (RealmRecyclerView) findViewById(R.id.realm_recycler_view);
 
-        setTitle(getResources().getString(
-                R.string.activity_layout_name,
-                getIntent().getStringExtra("Type")));
+        Toolbar myToolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(myToolbar);
+        if(null != getSupportActionBar()) {
+            getSupportActionBar().setTitle(getResources().getString(
+                    R.string.activity_layout_name,
+                    getIntent().getStringExtra("Type")));
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
+
+        realmRecyclerView = (RealmRecyclerView) findViewById(R.id.realm_recycler_view);
 
         resetRealm();
 
@@ -105,7 +113,7 @@ public class GridExampleActivity extends AppCompatActivity {
 
         @Override
         public void onBindRealmViewHolder(ViewHolder viewHolder, int position) {
-            final NYTimesStory nyTimesStory = realmResults.get(position);
+            final NYTimesStory nyTimesStory = adapterData.get(position);
             viewHolder.title.setText(nyTimesStory.getTitle());
             viewHolder.publishedDate.setText(nyTimesStory.getPublishedDate());
             final RealmList<NYTimesMultimedium> multimedia = nyTimesStory.getMultimedia();

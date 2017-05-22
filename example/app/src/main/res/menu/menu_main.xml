@@ -7,11 +7,11 @@
         android:id="@+id/action_add_quote"
         android:title="Add Quote"
         android:orderInCategory="100"
-        app:showAsAction="always"/>
+        app:showAsAction="never"/>
 
     <item
         android:id="@+id/action_add_footer"
         android:title="Add Footer"
         android:orderInCategory="100"
-        app:showAsAction="always"/>
+        app:showAsAction="never"/>
 </menu>

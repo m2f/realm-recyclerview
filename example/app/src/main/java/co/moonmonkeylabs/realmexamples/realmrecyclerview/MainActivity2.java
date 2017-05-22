@@ -3,6 +3,7 @@ package co.moonmonkeylabs.realmexamples.realmrecyclerview;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -32,7 +33,14 @@ public class MainActivity2 extends RealmBaseActivity {
         setContentView(R.layout.activity_main_linear_layout_headers);
 
         type = getIntent().getStringExtra("Type");
-        setTitle(getResources().getString(R.string.activity_layout_name, type));
+        Toolbar myToolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(myToolbar);
+        if(null != getSupportActionBar()) {
+            getSupportActionBar().setTitle(getResources().getString(
+                    R.string.activity_layout_name,
+                    getIntent().getStringExtra("Type")));
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
 
         resetRealm();
         realm = Realm.getInstance(getRealmConfig());
@@ -83,7 +91,7 @@ public class MainActivity2 extends RealmBaseActivity {
         public CountryRecyclerViewAdapter(
                 Context context,
                 RealmResults<CountryModel> realmResults) {
-            super(context, realmResults, true, true, true, "name");
+            super(context, realmResults, true, true);
         }
 
         public class ViewHolder extends RealmViewHolder {
@@ -107,7 +115,7 @@ public class MainActivity2 extends RealmBaseActivity {
 
         @Override
         public void onBindRealmViewHolder(ViewHolder viewHolder, int position) {
-            final CountryModel quoteModel = realmResults.get(position);
+            final CountryModel quoteModel = adapterData.get(position);
             viewHolder.countryTextView.setText(quoteModel.getName());
             viewHolder.countryTextView.setOnClickListener(
                     new View.OnClickListener() {

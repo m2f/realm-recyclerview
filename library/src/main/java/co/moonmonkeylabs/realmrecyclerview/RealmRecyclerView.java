@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewStub;
 import android.widget.FrameLayout;
@@ -335,6 +336,7 @@ public class RealmRecyclerView extends FrameLayout {
     public void setAdapter(final RealmBasedRecyclerViewAdapter adapter) {
         this.adapter = adapter;
         recyclerView.setAdapter(adapter);
+        setEmptyStubVisibility(null == adapter || adapter.isEmpty());
         if (swipeToDelete) {
             realmSimpleItemTouchHelperCallback.setAdapter(adapter);
         }
@@ -377,6 +379,7 @@ public class RealmRecyclerView extends FrameLayout {
 
                         private void update() {
                             if(stackFromEnd) smoothScrollToPosition(adapter.getItemCount());
+                            setEmptyStubVisibility(adapter.isEmpty());
                         }
                     }
             );

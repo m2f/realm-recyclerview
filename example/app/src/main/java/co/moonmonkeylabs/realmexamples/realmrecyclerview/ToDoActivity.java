@@ -10,6 +10,8 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
@@ -55,6 +57,10 @@ public class ToDoActivity extends RealmBaseActivity {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        if(null != getSupportActionBar()) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
+
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -64,7 +70,6 @@ public class ToDoActivity extends RealmBaseActivity {
             }
         });
 
-        resetRealm();
         realm = Realm.getInstance(getRealmConfig());
         RealmResults<TodoItem> toDoItems = realm
                 .where(TodoItem.class)
@@ -85,12 +90,30 @@ public class ToDoActivity extends RealmBaseActivity {
         }
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.todo_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.clear_todo) {
+            realm.beginTransaction();
+            realm.where(TodoItem.class).findAll().deleteAllFromRealm();
+            realm.commitTransaction();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
     private void buildAndShowInputDialog() {
         final AlertDialog.Builder builder = new AlertDialog.Builder(ToDoActivity.this);
         builder.setTitle("Create A Task");
 
         LayoutInflater li = LayoutInflater.from(this);
-        View dialogView = li.inflate(R.layout.to_do_dialog_view, container);
+        View dialogView = li.inflate(R.layout.to_do_dialog_view, container, false);
         final EditText input = (EditText) dialogView.findViewById(R.id.input);
 
         builder.setView(dialogView);
@@ -126,8 +149,7 @@ public class ToDoActivity extends RealmBaseActivity {
 
     private void addToDoItem(String toDoItemText) {
         if (toDoItemText == null || toDoItemText.length() == 0) {
-            Toast
-                    .makeText(this, "Empty ToDos don't get stuff done!", Toast.LENGTH_SHORT)
+            Toast.makeText(this, "Empty ToDos don't get stuff done!", Toast.LENGTH_SHORT)
                     .show();
             return;
         }
@@ -146,7 +168,7 @@ public class ToDoActivity extends RealmBaseActivity {
             public TextView todoTextView;
             public ViewHolder(FrameLayout container) {
                 super(container);
-                this.todoTextView = (TextView) container.findViewById(R.id.todo_text_view);
+                this.todoTextView = (TextView) container.findViewById(R.id.quote_text_view);
             }
         }
 
@@ -166,7 +188,7 @@ public class ToDoActivity extends RealmBaseActivity {
 
         @Override
         public void onBindRealmViewHolder(ViewHolder viewHolder, int position) {
-            final TodoItem toDoItem = realmResults.get(position);
+            final TodoItem toDoItem = adapterData.get(position);
             viewHolder.todoTextView.setText(toDoItem.getDescription());
             viewHolder.itemView.setBackgroundColor(
                     COLORS[(int) (toDoItem.getId() % COLORS.length)]

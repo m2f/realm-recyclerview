@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -67,6 +68,15 @@ public class MainActivity extends RealmBaseActivity {
                 setContentView(R.layout.activity_main_linear_layout);
                 break;
         }
+
+        Toolbar myToolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(myToolbar);
+        if(null != getSupportActionBar()) {
+            getSupportActionBar().setTitle(getResources().getString(
+                    R.string.activity_layout_name,
+                    getIntent().getStringExtra("Type")));
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
         realmRecyclerView = (RealmRecyclerView) findViewById(R.id.realm_recycler_view);
 
         setTitle(getResources().getString(R.string.activity_layout_name, type));
@@ -89,12 +99,8 @@ public class MainActivity extends RealmBaseActivity {
         RealmResults<QuoteModel> quoteModels = realm
                 .where(QuoteModel.class)
                 .findAllSorted("id", (isLoadMore || isBulk) ? Sort.ASCENDING : Sort.DESCENDING);
-        quoteAdapter = new QuoteRecyclerViewAdapter(
-                getBaseContext(),
-                quoteModels,
-                true,
-                true,
-                isBulk ? "date" : null);
+
+        quoteAdapter = new QuoteRecyclerViewAdapter(getBaseContext(), quoteModels, true, true);
         realmRecyclerView.setAdapter(quoteAdapter);
 
         realmRecyclerView.setOnRefreshListener(
@@ -168,9 +174,8 @@ public class MainActivity extends RealmBaseActivity {
                 Context context,
                 RealmResults<QuoteModel> realmResults,
                 boolean automaticUpdate,
-                boolean animateIdType,
-                String animateExtraColumnName) {
-            super(context, realmResults, automaticUpdate, animateIdType, animateExtraColumnName);
+                boolean animateIdType) {
+            super(context, realmResults, automaticUpdate, animateIdType);
         }
 
         public class ViewHolder extends RealmViewHolder {
@@ -197,7 +202,7 @@ public class MainActivity extends RealmBaseActivity {
 
         @Override
         public void onBindRealmViewHolder(ViewHolder viewHolder, int position) {
-            final QuoteModel quoteModel = realmResults.get(position);
+            final QuoteModel quoteModel = adapterData.get(position);
             viewHolder.quoteTextView.setOnClickListener(
                     new View.OnClickListener() {
                         @Override

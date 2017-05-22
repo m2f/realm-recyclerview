@@ -1,6 +1,6 @@
 # A RecyclerView that is powered by Realm
 
-### Latest 0.9.25 is built with Realm 2.2.1.
+### Latest 0.9.28 is built with Realm 3.2.1.
 
 A powerful ```RecyclerView``` wrapper for working with ```Realm``` as your datastore. It supports the following features out of the box:
 
@@ -8,7 +8,7 @@ A powerful ```RecyclerView``` wrapper for working with ```Realm``` as your datas
 * Empty state
 * Pull-to-refresh (backed by SwipeRefreshLayout)
 * Infinite scrolling (callback for more data fetching)
-* Section headers (backed by SuperSLiM)
+* Section headers (backed by SuperSLiM) (TODO)
 
 ##How To Include It:
 
@@ -23,7 +23,7 @@ A powerful ```RecyclerView``` wrapper for working with ```Realm``` as your datas
 
 ```
 	dependencies {
-	        compile 'com.github.thorbenprimke:realm-recyclerview:0.9.26'
+	        compile 'com.github.m2f:realm-recyclerview:0.9.28'
 	}
 ```
 
@@ -78,9 +78,7 @@ The heart of the ```RealmRecyclerView```'s functionality comes from this custom 
 
 * ```animateResults```: If animateResults is set together with automaticUpdate, the automatic updates are animated. This is limited to a single deletion or insertion. If it's more than one item, it will simply refresh the list. The animation leverages the results primary key column as a unique identifier for each row. Therefore your ```Realm```'s schema needs to include a primary key column of type ```Integer``` or ```String```.
 
-* ```addSectionHeaders```: When the ```rrvLayoutType``` is ```LinearLayoutWithHeaders```, addSectionHeaders needs be set in order for the adapter to generate the headers. The ```headerColumnName``` needs to be set as well in order to look up the header column programmatically in your ```Realm```'s schema. *Note: There is currently no support for customizing the header and it is always inline|sticky.*
-
-* ```animateExtraColumnName```: When ```automaticUpdate``` and ```animateResults``` is set the primary key is used to detect changes. If the primary key does not change then **only** deletions and insertions will be updated in the list. Set animateExtraColumnName to be name of a column in your ```Realm```'s schema. The column must be of type ```Integer```, ```Date``` or ```String```. When a change to this column is detected then the matching row in the list will be refreshed. A timestamp that is incremented after any column is updated would work well as an animateExtraColumnName.
+* ```addSectionHeaders```: When the ```rrvLayoutType``` is ```LinearLayoutWithHeaders```, addSectionHeaders needs be set in order for the adapter to generate the headers. The ```realmHeaderColumnIndex``` needs to be set as well in order to look up the header column programmatically in your ```Realm```'s schema. *Note: There is currently no support for customizing the header and it is always inline|sticky.*
 
 ##Feedback/More Features:
 I would love to hear your feedback. Do you find the ```RealmRecyclerView``` useful? What functionality are you missing? Open a ```Github``` issue and let me know. Thanks!
