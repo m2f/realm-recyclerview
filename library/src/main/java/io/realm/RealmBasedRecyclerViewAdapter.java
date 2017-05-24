@@ -21,6 +21,7 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -145,15 +146,22 @@ public abstract class RealmBasedRecyclerViewAdapter
         this.onRealmDataChangeListener = onRealmDataChangeListener;
     }
 
-    public void setAdapterData(OrderedRealmCollection<T> adapterData) {
+    public void setAdapterData(OrderedRealmCollection<T> newAdapterData) {
+        //clear any listener for previous data set when current dat is null
+        if(null == newAdapterData) {
+            if (listener != null && isDataValid()) {
+                removeListener(adapterData);
+                return;
+            }
+        }
         // If automatic updates aren't enabled, then animateResults should be false as well.
-        this.animateResults = (automaticUpdate && animateResults && adapterData != null);
+        this.animateResults = (automaticUpdate && animateResults && newAdapterData != null);
         if (addSectionHeaders && realmHeaderColumnIndex == -1) {
             throw new IllegalStateException(
                     "A headerColumnName is required for section headers");
         }
 
-        updateAdapterData(adapterData);
+        updateAdapterData(newAdapterData);
     }
 
     public abstract VH onCreateRealmViewHolder(ViewGroup viewGroup, int viewType);
