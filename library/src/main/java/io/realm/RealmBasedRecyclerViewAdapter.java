@@ -91,8 +91,8 @@ public abstract class RealmBasedRecyclerViewAdapter
     private boolean isStickyHeader;
     private long realmHeaderColumnIndex = -1;
 
-    public interface OnRealmDataChange {
-        void onDataChange(OrderedRealmCollection<? extends RealmModel> newData);
+    public interface OnRealmDataChange<T extends RealmModel> {
+        void onDataChange(OrderedRealmCollection<T> newData);
     }
 
     private OnRealmDataChange onRealmDataChangeListener;
