@@ -147,7 +147,13 @@ public abstract class RealmBasedRecyclerViewAdapter
     }
 
     public void setAdapterData(OrderedRealmCollection<T> newAdapterData) {
-        //clear any listener for previous data set when current dat is null
+        if(null == newAdapterData || newAdapterData.isEmpty()) {
+            //notify of data change if any listener is registered
+            if(null != onRealmDataChangeListener) {
+                onRealmDataChangeListener.onDataChange(newAdapterData);
+            }
+        }
+        //clear any listener for previous data set when current data is null
         if(null == newAdapterData) {
             if (listener != null && isDataValid()) {
                 removeListener(adapterData);
@@ -404,15 +410,15 @@ public abstract class RealmBasedRecyclerViewAdapter
 
             @Override
             public void onChange(OrderedRealmCollection<T> elements, OrderedCollectionChangeSet changeSet) {
+                //notify of data change if any listener is registered
+                if(null != onRealmDataChangeListener) {
+                    onRealmDataChangeListener.onDataChange(elements);
+                }
+
                 // null Changes means the async query returns the first time.
                 if (changeSet == null) {
                     notifyDataSetChanged();
                     return;
-                }
-
-                //notify of data change if any listener is registered
-                if(null != onRealmDataChangeListener) {
-                    onRealmDataChangeListener.onDataChange(elements);
                 }
 
                 // For deletions, the adapter has to be notified in reverse order.
