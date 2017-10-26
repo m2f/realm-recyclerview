@@ -17,11 +17,11 @@ android {
             minifyEnabled false
         }
         staging {
-            minifyEnabled true
+            minifyEnabled false
             consumerProguardFiles 'consumer-proguard-rules.pro'
         }
         release {
-            minifyEnabled true
+            minifyEnabled false
             consumerProguardFiles 'consumer-proguard-rules.pro'
         }
     }
