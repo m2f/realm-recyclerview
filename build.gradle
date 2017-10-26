@@ -3,16 +3,23 @@
 buildscript {
     repositories {
         jcenter()
+        google()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.3'
+        classpath 'com.android.tools.build:gradle:3.0.0'
         classpath "io.realm:realm-gradle-plugin:3.5.0"
     }
 }
 
+project.ext.minSdk = 16
+project.ext.compileSdk = 26
+project.ext.buildTools = "26.0.2"
+project.ext.supportLibVersion = "26.0.2"
+
 allprojects {
     repositories {
         jcenter()
+        google()
         maven { url "https://jitpack.io" }
     }
 }

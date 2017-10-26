@@ -2,29 +2,34 @@ apply plugin: 'com.android.library'
 apply plugin: 'realm-android'
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion '25.0.3'
+    compileSdkVersion compileSdk
+    buildToolsVersion buildTools
 
     defaultConfig {
-        minSdkVersion 16
-        targetSdkVersion 25
+        minSdkVersion minSdk
+        targetSdkVersion compileSdk
         versionCode 1
         versionName "1.0"
         vectorDrawables.useSupportLibrary = true
     }
     buildTypes {
-        release {
+        debug {
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        staging {
+            minifyEnabled true
+            consumerProguardFiles 'consumer-proguard-rules.pro'
+        }
+        release {
+            minifyEnabled true
+            consumerProguardFiles 'consumer-proguard-rules.pro'
         }
     }
 }
 
-ext.supportLibVersion = '25.3.1'
-
 dependencies {
-    compile "com.android.support:design:${supportLibVersion}"
-    compile "com.android.support:palette-v7:${supportLibVersion}"
-    compile "com.android.support:recyclerview-v7:${supportLibVersion}"
-    compile 'com.tonicartos:superslim:0.4.13'
+    api "com.android.support:design:${supportLibVersion}"
+    api "com.android.support:palette-v7:${supportLibVersion}"
+    api "com.android.support:recyclerview-v7:${supportLibVersion}"
+    api 'com.tonicartos:superslim:0.4.13'
 }
