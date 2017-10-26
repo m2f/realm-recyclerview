@@ -1,6 +1,11 @@
 apply plugin: 'com.android.library'
 apply plugin: 'realm-android'
 
+project.ext.minSdk = 16
+project.ext.compileSdk = 26
+project.ext.buildTools = "26.0.2"
+project.ext.supportLibVersion = "26.0.2"
+
 android {
     compileSdkVersion compileSdk
     buildToolsVersion buildTools
@@ -18,11 +23,11 @@ android {
         }
         staging {
             minifyEnabled false
-            consumerProguardFiles 'consumer-proguard-rules.pro'
+            //consumerProguardFiles 'consumer-proguard-rules.pro'
         }
         release {
             minifyEnabled false
-            consumerProguardFiles 'consumer-proguard-rules.pro'
+            //consumerProguardFiles 'consumer-proguard-rules.pro'
         }
     }
 }
