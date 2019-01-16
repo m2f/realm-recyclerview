@@ -57,7 +57,9 @@ public class MainActivity2 extends RealmBaseActivity {
         realm.commitTransaction();
 
         RealmResults<CountryModel> countryModels =
-                realm.where(CountryModel.class).findAllSorted("name", Sort.ASCENDING);
+                realm.where(CountryModel.class)
+                        .sort("name", Sort.ASCENDING)
+                        .findAll();
         countryAdapter = new CountryRecyclerViewAdapter(getBaseContext(), countryModels);
         realmRecyclerView.setAdapter(countryAdapter);
     }

@@ -118,7 +118,7 @@ public abstract class RealmSearchAdapter<T extends RealmObject, VH extends Realm
         if (sortKey == null) {
             businesses = where.findAll();
         } else {
-            businesses = where.findAllSorted(sortKey, sortOrder);
+            businesses = where.sort(sortKey, sortOrder).findAll();
         }
         updateAdapterData(businesses);
     }

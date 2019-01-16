@@ -59,7 +59,7 @@ public class GridExampleActivity extends AppCompatActivity {
         Realm.setDefaultConfiguration(getRealmConfig());
         realm = Realm.getDefaultInstance();
         RealmResults<NYTimesStory> nyTimesStories =
-                realm.where(NYTimesStory.class).findAllSorted("sortTimeStamp", Sort.DESCENDING);
+                realm.where(NYTimesStory.class).sort("sortTimeStamp", Sort.DESCENDING).findAll();
         nyTimesStoryAdapter = new NYTimesStoryRecyclerViewAdapter(this, nyTimesStories, true, true);
         realmRecyclerView.setAdapter(nyTimesStoryAdapter);
 

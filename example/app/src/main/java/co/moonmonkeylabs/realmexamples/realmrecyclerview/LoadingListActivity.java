@@ -79,7 +79,10 @@ public class LoadingListActivity extends RealmBaseActivity {
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                loadingListAdapter.setAdapterData(realm.where(Message.class).findAllSorted("timestamp", Sort.ASCENDING));
+                loadingListAdapter.setAdapterData(
+                        realm.where(Message.class)
+                                .sort("timestamp", Sort.ASCENDING)
+                                .findAll());
                 p.setVisibility(View.GONE);
             }
         }, 3000);

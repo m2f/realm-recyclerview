@@ -2,9 +2,9 @@ apply plugin: 'com.android.library'
 apply plugin: 'realm-android'
 
 project.ext.minSdk = 16
-project.ext.compileSdk = 26
-project.ext.buildTools = "26.0.2"
-project.ext.supportLibVersion = "26.0.2"
+project.ext.compileSdk = 27
+project.ext.buildTools = "27.0.3"
+project.ext.supportLibVersion = "27.1.1"
 
 android {
     compileSdkVersion compileSdk

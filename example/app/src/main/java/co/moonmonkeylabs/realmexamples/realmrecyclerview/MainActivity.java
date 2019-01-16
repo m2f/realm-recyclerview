@@ -98,7 +98,8 @@ public class MainActivity extends RealmBaseActivity {
 
         RealmResults<QuoteModel> quoteModels = realm
                 .where(QuoteModel.class)
-                .findAllSorted("id", (isLoadMore || isBulk) ? Sort.ASCENDING : Sort.DESCENDING);
+                .sort("id", (isLoadMore || isBulk) ? Sort.ASCENDING : Sort.DESCENDING)
+                .findAll();
 
         quoteAdapter = new QuoteRecyclerViewAdapter(getBaseContext(), quoteModels, true, true);
         realmRecyclerView.setAdapter(quoteAdapter);

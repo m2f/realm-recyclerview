@@ -73,7 +73,8 @@ public class ToDoActivity extends RealmBaseActivity {
         realm = Realm.getInstance(getRealmConfig());
         RealmResults<TodoItem> toDoItems = realm
                 .where(TodoItem.class)
-                .findAllSorted("id", Sort.ASCENDING);
+                .sort("id", Sort.ASCENDING)
+                .findAll();
         ToDoRealmAdapter toDoRealmAdapter =
                 new ToDoRealmAdapter(this, toDoItems, true, true);
         RealmRecyclerView realmRecyclerView =
