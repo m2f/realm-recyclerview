@@ -2,14 +2,13 @@ package co.moonmonkeylabs.realmrecyclerview;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.support.v7.widget.helper.ItemTouchHelper;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewStub;
 import android.widget.FrameLayout;
@@ -218,7 +217,7 @@ public class RealmRecyclerView extends FrameLayout {
     }
 
     /**
-     * Sets the orientation of the layout. {@link android.support.v7.widget.LinearLayoutManager}
+     * Sets the orientation of the layout. {@link LinearLayoutManager}
      * will do its best to keep scroll position.
      */
     public void setOrientation(int orientation) {

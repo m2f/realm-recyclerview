@@ -6,7 +6,7 @@ import android.animation.PropertyValuesHolder;
 import android.graphics.Path;
 import android.graphics.PathMeasure;
 import android.os.Build;
-import android.support.annotation.Size;
+import androidx.annotation.Size;
 import android.util.Property;
 
 /**

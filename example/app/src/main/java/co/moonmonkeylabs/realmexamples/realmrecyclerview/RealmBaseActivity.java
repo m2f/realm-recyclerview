@@ -1,6 +1,6 @@
 package co.moonmonkeylabs.realmexamples.realmrecyclerview;
 
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
