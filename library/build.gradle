@@ -30,6 +30,6 @@ android {
 dependencies {
     api "com.google.android.material:material:1.0.0"
     api "androidx.palette:palette:1.0.0"
-    api "androidx.recyclerview:recyclerview:1.0.0"
+    api "androidx.recyclerview:recyclerview:1.1.0"
     api 'com.tonicartos:superslim:0.4.13'
 }

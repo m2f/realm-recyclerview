@@ -102,7 +102,7 @@ public abstract class RealmBasedRecyclerViewAdapter
         void onDataChange(OrderedRealmCollection<T> newData);
     }
 
-    private OnRealmDataChange onRealmDataChangeListener;
+    private OnRealmDataChange<T> onRealmDataChangeListener;
 
     public RealmBasedRecyclerViewAdapter(
             Context context,
@@ -149,7 +149,7 @@ public abstract class RealmBasedRecyclerViewAdapter
         }
     }
 
-    public void setOnRealmDataChangeListener(OnRealmDataChange onRealmDataChangeListener) {
+    public void setOnRealmDataChangeListener(OnRealmDataChange<T> onRealmDataChangeListener) {
         this.onRealmDataChangeListener = onRealmDataChangeListener;
     }
 

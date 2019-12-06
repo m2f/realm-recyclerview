@@ -1,6 +1,6 @@
 # A RecyclerView that is powered by Realm
 
-### Latest 1.5 is built with Realm 5.2.0.
+### Latest 1.7 is built with Realm 6.0.2
 
 A powerful ```RecyclerView``` wrapper for working with ```Realm``` as your datastore. It supports the following features out of the box:
 
@@ -23,7 +23,7 @@ A powerful ```RecyclerView``` wrapper for working with ```Realm``` as your datas
 
 ```
 	dependencies {
-	        compile 'com.github.m2f.realm-recyclerview:library:1.5'
+	        compile 'com.github.m2f.realm-recyclerview:library:1.7'
 	}
 ```
 
