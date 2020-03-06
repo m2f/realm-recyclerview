@@ -2,22 +2,23 @@ package co.moonmonkeylabs.realmsearchview;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
-import android.widget.EditText;
 
+import androidx.appcompat.widget.AppCompatEditText;
 import co.moonmonkeylabs.realmrecyclerview.R;
 
 import static android.view.View.OnFocusChangeListener;
 
 /**
- * A {@link EditText} field with a clear drawable.
+ * A {@link AppCompatEditText} field with a clear drawable.
  */
-public class ClearableEditText extends EditText
+public class ClearableEditText extends AppCompatEditText
         implements OnTouchListener, OnFocusChangeListener, TextWatcher {
 
     private Drawable clearDrawable;
@@ -40,7 +41,12 @@ public class ClearableEditText extends EditText
     private void init() {
         clearDrawable = getCompoundDrawables()[2];
         if (clearDrawable == null) {
-            clearDrawable = getResources().getDrawable(R.drawable.ic_cancel_black_18dp);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                clearDrawable = getResources().getDrawable(R.drawable.ic_cancel_black_18dp, this.getContext().getTheme());
+            } else {
+                //noinspection deprecation
+                clearDrawable = getResources().getDrawable(R.drawable.ic_cancel_black_18dp);
+            }
         }
         setClearDrawable(clearDrawable);
         setClearIconVisible(false);
@@ -67,7 +73,11 @@ public class ClearableEditText extends EditText
     @Override
     public void onFocusChange(View v, boolean hasFocus) {
         if (hasFocus) {
-            setClearIconVisible(isNotEmpty(getText().toString()));
+            boolean setVisible = false;
+            if (getText() != null) {
+                setVisible = isNotEmpty(getText().toString());
+            }
+            setClearIconVisible(setVisible);
         } else {
             setClearIconVisible(false);
         }

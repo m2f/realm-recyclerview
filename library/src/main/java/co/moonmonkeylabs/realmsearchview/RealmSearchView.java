@@ -2,6 +2,7 @@ package co.moonmonkeylabs.realmsearchview;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.os.Build;
 import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -104,7 +105,12 @@ public class RealmSearchView extends LinearLayout {
         int clearDrawableResId =
                 typedArray.getResourceId(R.styleable.RealmSearchView_rsvClearDrawable, -1);
         if (clearDrawableResId != -1) {
-            searchBar.setClearDrawable(getResources().getDrawable(clearDrawableResId));
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                searchBar.setClearDrawable(getResources().getDrawable(clearDrawableResId, context.getTheme()));
+            } else {
+                //noinspection deprecation
+                searchBar.setClearDrawable(getResources().getDrawable(clearDrawableResId));
+            }
         }
 
         addFooterOnIdle = typedArray.getBoolean(R.styleable.RealmSearchView_rsvAddFooter, false);
