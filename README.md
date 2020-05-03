@@ -1,6 +1,6 @@
 # A RecyclerView that is powered by Realm
 
-### Latest 1.7 is built with Realm 6.0.2
+### Latest 1.7.1 is built with Realm 6.0.2
 
 A powerful ```RecyclerView``` wrapper for working with ```Realm``` as your datastore. It supports the following features out of the box:
 
@@ -8,7 +8,7 @@ A powerful ```RecyclerView``` wrapper for working with ```Realm``` as your datas
 * Empty state
 * Pull-to-refresh (backed by SwipeRefreshLayout)
 * Infinite scrolling (callback for more data fetching)
-* Section headers (backed by SuperSLiM) (TODO)
+
 
 ##How To Include It:
 
@@ -23,7 +23,7 @@ A powerful ```RecyclerView``` wrapper for working with ```Realm``` as your datas
 
 ```
 	dependencies {
-	        compile 'com.github.m2f.realm-recyclerview:library:1.7'
+	        implementation 'com.github.m2f.realm-recyclerview:library:1.7.1'
 	}
 ```
 
